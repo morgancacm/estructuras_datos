@@ -1,0 +1,206 @@
+Dimensionar Pila[20] de char
+Dimensionar PilaOperandos[20] de enteros
+
+Infija: String[20] 
+Postfija: String[20]
+
+bool pilaLlena()
+    Si (tope == 20 - 1) entonces
+        return true;
+        SiNo
+            return false;
+    FinSi
+FinPilaLlena
+
+bool pilaVacia()
+    Si (tope == -1) entonces
+        return true;
+        SiNo
+            return false;
+    FinSi
+FinPilaVacia
+
+Empilar(Char: dato) 
+    Si (pilaLlena() == true) entonces
+        escriba "Stack Overflow";
+        SiNo
+            tope++;
+            Pila[tope] = dato;
+    FinSi
+FinEmpilar
+
+Desempilar()
+    Char letra;
+    Si (pilaVacia() == true) entonces
+        escriba "Stack Underflow";
+        return = ' ';
+        SiNo 
+            letra = Pila[tope];
+            tope--;
+            return letra;
+    FinSi
+FinDesempilar
+
+Prioridad(Char: operador)
+    Si (operador == '^') entonces
+        return 3;
+    FinSi
+
+    Si (operador == '*' o '/') entonces
+        return 2;
+    FinSi
+
+    Si (operador == '+' o '-') entonces
+        return 1;
+    FinSi
+
+    Si (operador == '(') entonces
+        return 0;
+    FinSi
+FinPrioridad
+
+ConvertirInfijaAPostfija()
+    escribir("Ingrese la expresión a evaluar: ); lea(Infija);
+    k = 0;
+
+    Si (expresionCorrecta(Infija) == true) entonces
+        Si (validacion(Infija) == true) entonces
+            Para i = 0 Hasta Long(Infija)
+                Si (Infija[i] está en ['A', ..., 'Z']) entonces // o sea mientras sea un operando
+                    Postfija[k] = Infija[i];
+                    k + 1;
+                FinSi
+                // si no es operando es operador
+                    SiNo Si (Infija[i] == '(') entonces
+                        Empilar(Infija[i]);
+                    FinSiNoSi
+                    SiNo Si (Infija[i] == ')') entonces
+                        Mientras (pilaVacia() == false and Pila[tope] != '(') Hacer 
+                            Postfija[k] = Desempilar();
+                            k + 1;
+                        FinMientrasQue
+                        Si (pilaVacia() == false and Pila[tope] == '(') entonces
+                            Desempilar();
+                        FinSi
+                    FinSiNoSi
+                    SiNo 
+                        Mientras (pilaVacia() == false and Prioridad(Infija[i]) <= Prioridad(Pila[tope])) Hacer
+                            Postfija[k] = Desempilar();
+                            k + 1;
+                        FinMientrasQue
+                        Empilar(Infija[i]);
+            FinPara
+            Mientras (pilaVacia() == false) Hacer
+                Postfija[k] = Desempilar();
+                k + 1;
+            FinMientrasQue
+        FinSi
+        SiNo
+            escriba("Error: ingrese la expresion correctamente, por favor intente nuevamente.");
+    FinSi
+    SiNo 
+        escriba("Error: para convertir la expresion debe contener operandos y operadores");   
+        
+    escriba("La expresion en postfija es: ", Postfija);
+FinConvertirInfijaAPostfija
+
+bool expresionCorrecta(infija)
+    Para (char select: Infija)
+        Si (select está en ['A', ..., 'Z'] entonces
+            contieneOperando = true;
+        FinSi
+        SiNo Si (select == '+' o select == '-' o select == '*' o select == '/' o select == '(' o select == ')') entonces
+            contieneOperador = true;
+        FinSiNoSi
+    FinPara
+    Si (contieneOperando <> true o contieneOperador <> true) entonces
+        return false;
+    FinSi
+    return true;
+FinExpresionCorrecta
+
+bool validacion(Infija) 
+    Para (char select: Infija) 
+        Si (select no está en ['A', ..., 'Z'] and select <> ['+', '-', '*', '/', '^', '(', ')']) entonces
+            return false;
+        FinSi
+        SiNo
+            return true;
+    FinPara
+FinValidacion
+
+bool pilaVaciaPO()
+    Si (topePO == -1) entonces
+        return true;
+        SiNo
+            return false;
+    FinSi
+FinPilaVaciaPO
+
+bool pilaLlenaPO()
+    Si (topePO == 20 - 1) entonces
+        return true;
+        SiNo
+            return false;
+    FinSi
+FinPilaLlenaPO
+
+EmpilarPO(int dato)
+    Si (pilaLlenaPO() == true) entonces   
+        escriba("Stack Overflow");
+        SiNo
+            topePO++;
+            PilaOperandos[topePO] = dato;
+    FinSi
+FinEmpilarPO
+
+DesempilarPO()
+    Char letra;
+    Si (pilaVaciaPO() == true) entonces
+        escriba "Stack Underflow";
+        return = ' ';
+        SiNo 
+            letra = PilaOperandos[topePO];
+            topePO--;
+            return letra;
+    FinSi
+FinDesempilarPO
+
+designarPO(int operando1, char operador, int operando2)
+    Si (operador == '+') entonces
+        resultado = operando1 + operando2;
+    FinSi
+    Si (operador == '-') entonces
+        resultado = operando1 - operando2;
+    FinSi
+    Si (operador == '*') entonces
+        resultado = operando1 * operando2;
+    FinSi
+    Si (operador == '/') entonces
+        Si (operando2 == 0) entonces
+            escriba("Error: no se puede dividir entre 0");
+        FinSi
+        resultado = operando1 / operando2;
+    FinSi
+    Si (operador == '^') entonces
+        resultado = operando1 ^ operando2;
+    FinSi
+    return resultado;
+FinDesignarPO;
+
+EvaluarExpresionPostfija()
+    Para i = 0 Hasta Long(Postfija)
+        Si (Postfija[i] está en ['A', ..., 'Z']) entonces
+            escriba("Ingrese un valor para el operando ", Postfija[i], ": "); 
+            lea(valor);
+            EmpilarPO(valor);
+        FinSi
+        SiNo
+            operando1 = DesempilarPO();
+            operando2 = DesempilarPO();
+            operador = postfija[i];
+            resultado = designarPO(operando1, caracter, operando2);
+            EmpilarPO(resultado);
+    FinPara
+    escriba("El resultado de la expresion", postfija, " es: ", PilaOperandos[topePO]);
+FinEvaluarExpresionPostfija
