@@ -1,0 +1,128 @@
+// estructuras de datos
+Struct arbolA {
+    int dato;
+    arbolA *sub_izq
+    arbolA *sub_der
+} *R, *P, *aux1, *aux2;
+
+Struct arbolB {
+    int dato;
+    arbolB *sub_izq
+    arbolB *sub_der
+} *R2, *P2, *aux1, *aux2;
+
+// funciones recorrido
+recorrerIzquierda1(*arbolA P)
+    Si (P|.sub_izq != nil) entonces
+        recorrerIzquierda(P|.sub_izq);
+        peso1 = peso1 + 1;
+    FinSi
+FinRecorrerIzquierda
+
+recorrerDerecha2(*arbolA P)
+    Si (P|.sub_der != nil) entonces
+        recorrerDerecha(P|.sub_der);
+        peso2 = peso2 + 1;
+    FinSi
+FinRecorrerDerecha
+
+recorrerIzquierda3(*arbolB P2)
+    Si (P2|.sub_izq != nil) entonces
+        recorrerIzquierda(P2|.sub_izq);
+        peso3 = peso3 + 1;
+    FinSi
+FinRecorrerIzquierda
+
+recorrerDerecha4(*arbolB P2)
+    Si (P2|.sub_der != nil) entonces
+        recorrerDerecha(P2|.sub_der);
+        peso4 = peso4 + 1;
+    FinSi
+FinRecorrerDerecha
+
+// función para comparar
+equivalentes(peso1, peso2, peso3, peso4)
+    Si (peso1 == peso3 && peso2 == peso4) entonces
+        escriba("Son equivalentes");
+        SiNo 
+            escriba("No son equivalentes");    
+    FinSi
+FinEquivalentes
+
+crearArbol1
+    Repita
+        new(P);
+        Si (P == nil) entonces
+            escriba("No hay memoria disponible);
+            SiNo
+                escriba("introduzca un valor: ");
+                lea(P|.dato);
+                P|.sub_izq = nil;
+                P|.sub_der = nil;
+                Si (R = nil) entonces
+                    R = P;
+                    SiNo
+                        aux1 = R;
+                        Mientras (aux1 != nil) Haga
+                            aux2 = aux1;
+                            Si (P|.dato <= aux2|.dato) entonces
+                                aux1 = aux1|.sub_izq;
+                                SiNo
+                                    aux1 = aux1|.sub_der;
+                            FinSi
+                        FinMientrasQue
+                        Si (P|.dato <= aux2|.dato) entonces
+                            aux2|.sub_izq = P;
+                            SiNo
+                                aux2|.sub_der = P;
+                        FinSi
+                FinSi
+        FinSi
+        escriba("Desea añadir otro nodo?: ");
+        lea(OP);
+    Hasta (OP != 'S')
+FinCrearArbol
+
+crearArbol2
+    Repita
+        new(P2);
+        Si (P2 == nil) entonces
+            escriba("No hay memoria disponible);
+            SiNo
+                escriba("introduzca un valor: ");
+                lea(P2|.dato);
+                P2|.sub_izq = nil;
+                P2|.sub_der = nil;
+                Si (R2 = nil) entonces
+                    R2 = P;
+                    SiNo
+                        aux1 = R2;
+                        Mientras (aux1 != nil) Haga
+                            aux2 = aux1;
+                            Si (P2|.dato <= aux2|.dato) entonces
+                                aux1 = aux1|.sub_izq;
+                                SiNo
+                                    aux1 = aux1|.sub_der;
+                            FinSi
+                        FinMientrasQue
+                        Si (P2|.dato <= aux2|.dato) entonces
+                            aux2|.sub_izq = P2;
+                            SiNo
+                                aux2|.sub_der = P2;
+                        FinSi
+                FinSi
+        FinSi
+        escriba("Desea añadir otro nodo?: ");
+        lea(OP);
+    Hasta (OP != 'S')
+FinCrearArbol
+
+main
+    crearArbol1();
+    crearArbol2();
+    recorrerIzquierda1(R);
+    recorrerIzquierda3(R2);
+    recorrerDerecha2(R);
+    recorrerDerecha4(R2);
+    equivalentes(peso1, peso2, peso3, peso4);
+FinMain
