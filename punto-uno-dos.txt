@@ -1,0 +1,55 @@
+Struct arbol {
+    int dato;
+    arbol *sub_izq
+    arbol *sub_der
+} *R, *P, *aux1, *aux2;
+
+preOrden(*arbol P)
+    Si (P != nil) entonces
+        peso = peso + 1;
+        preorden(P|.sub_izq);
+        preorden(P|.sub_der);
+        SiNo
+            return peso = 0;
+    FinSi
+FinPreOrden
+
+crearArbol
+    Repita
+        new(P);
+        Si (P == nil) entonces
+            escriba("No hay memoria disponible);
+            SiNo
+                escriba("introduzca un valor: ");
+                lea(P|.dato);
+                P|.sub_izq = nil;
+                P|.sub_der = nil;
+                Si (R = nil) entonces
+                    R = P;
+                    SiNo
+                        aux1 = R;
+                        Mientras (aux1 != nil) Haga
+                            aux2 = aux1;
+                            Si (P|.dato <= aux2|.dato) entonces
+                                aux1 = aux1|.sub_izq;
+                                SiNo
+                                    aux1 = aux1|.sub_der;
+                            FinSi
+                        FinMientrasQue
+                        Si (P|.dato <= aux2|.dato) entonces
+                            aux2|.sub_izq = P;
+                            SiNo
+                                aux2|.sub_der = P;
+                        FinSi
+                FinSi
+        FinSi
+        escriba("Desea añadir otro nodo?: ");
+        lea(OP);
+    Hasta (OP != 'S')
+FinCrearArbol
+
+main
+    crearArbol();
+    preOrden(R);
+    escriba("El peso total es de: ", peso);
+FinMain
