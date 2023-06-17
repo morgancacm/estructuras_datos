@@ -1,0 +1,106 @@
+Struct cola {
+    String dependencia;
+    cola *sig;
+    cola *ant;
+} *frente, *P, *Q, *fin;
+
+bool colaLlena
+    Si (new(P) == nil) entonces
+        return true;
+        SiNo
+            return false;
+    FinSi
+FinColaLlena
+
+bool colaVacia
+    Si (frente == nil) entonces
+        return true;
+        SiNo
+            return false;
+    FinSi
+FinColaVacia
+
+prioridad(cola *P)
+    Si (dependecia == "atencion al cliente") entonces
+        return 4;
+    FinSi
+    SiNo Si (dependecia == "recursos humanos") entonces
+        return 3;
+    FinSiNoSi
+    SiNo Si (dependecia == "financiera") entonces
+        return 2;
+    FinSiNoSi
+    SiNo Si (dependecia == "tecnico operativa") entonces
+        return 1;
+    FinSiNoSi
+FinPrioridad
+
+simulacionLlegada
+    Si (colaLlena()) entonces
+        escriba("No se aceptan más trabajos");
+        SiNo
+            Mientras (trabajosImpresion) Haga
+                new(P)
+                escriba("Ingrese la dependencia del trabajo (o 'fin' para finalizar): "); lea(dependencia);
+                Si (dependencia == "fin") entonces
+                    trabajosImpresion = false;
+                    break;
+                FinSi
+                P|.sig = nil;
+                P|.ant = nil;
+                Si (colaVacia()) entonces
+                    frente = P;
+                    fin = P;
+                    SiNo
+                        Q = fin;
+                        Mientras ((Q|.sig != nil) && ((prioridad(Q|.dependecia) < (prioridad(P|.dependecia))))) Haga
+                            Q = Q|.sig;
+                        FinMientrasQue
+
+                        Si (Q == frente) entonces
+                            // comprobar si el que va a insertar es menor al actual frente
+                            Si (prioridad(P|.dependecia) <= prioridad(frente|.dependecia)) entonces
+                                P|.sig = Q;
+                                Q|.ant|.sig = P;
+                                P|.ant = Q|.ant;
+                                Q|.ant = P;
+                                SiNo
+                                    Si ((Q|.ant != nil) && (prioridad(P|.dependecia < prioridad(frente|.dependecia)))) entonces
+                                        P|.sig = Q;
+                                        Q|.ant|.sig = P;
+                                        P|.ant = Q|.ant;
+                                        Q|.ant = P;
+                                    FinSi
+                                    Si ((Q|.ant != nil) && (prioridad(P|.dependecia > prioridad(frente|.dependecia)))) entonces
+                                        P|.sig = Q;
+                                        Q|.ant|.sig = P;
+                                        P|.ant = Q|.ant;
+                                        Q|.ant = P;
+                                        frente = P;
+                                    FinSi
+                                    Si ((Q|.ant != nil) && (Q|.sig != nil)) entonces
+                                        // comprobar si el que va a insertar va en medio de datos
+                                        P|.ant = Q;
+                                        P|.sig = Q|.sig;
+                                        Q|.sig|.ant = P;
+                                        Q|.sig = P;
+                                        SiNo 
+                                            // comprobar si va de ultimo
+                                            Si (Q == fin) entonces    
+                                                Q|.ant = P;
+                                                P|.sig = Q;
+                                                fin = P;
+                                            FinSi
+                                    FinSi
+                            FinSi
+                        FinSi
+                        SiNo
+                            Si (Q == fin) entonces
+                                P|.sig = Q;
+                                Q|.ant = P;
+                                fin = P;
+                        FinSi
+                FinSi
+            FinMientrasQue
+    FinSi
+FinSimulacionLlegada
